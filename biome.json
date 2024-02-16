@@ -9,7 +9,7 @@
 			"recommended": true
 		}
 	},
-  "files": {
-    "ignore": [".next", "public"]
-  }
+	"files": {
+		"ignore": [".next", "public"]
+	}
 }
