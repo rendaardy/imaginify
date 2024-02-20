@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Image {
+  id                 String   @id @default(cuid())
+  title              String   @db.VarChar(255)
+  transformationType String   @map("transformation_type") @db.VarChar(20)
+  publicId           String   @map("public_id")
+  secureUrl          String?  @map("secure_url")
+  width              Int?
+  height             Int?
+  config             Json?
+  transformationUrl  String?  @map("transformation_url")
+  aspectRatio        String?  @map("aspect_ratio") @db.VarChar(10)
+  color              String?  @db.VarChar(16)
+  prompt             String?
+  authorId           String   @map("author_id")
+  author             User     @relation(fields: [authorId], references: [id])
+  createdAt          DateTime @default(now()) @map("created_at")
+  updateAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("images")
+}
+
+model User {
+  id            String        @id @default(cuid())
+  clerkId       String        @unique @map("clerk_id")
+  email         String        @unique
+  username      String        @unique @db.VarChar(30)
+  photo         String
+  firstName     String?       @map("first_name") @db.VarChar(50)
+  lastName      String?       @map("last_name") @db.VarChar(50)
+  planId        Int           @default(1) @map("plan_id")
+  creditBalance Float         @default(10) @map("credit_balance")
+  images        Image[]
+  transactions  Transaction[]
+
+  @@map("users")
+}
+
+model Transaction {
+  id       String  @id @default(cuid())
+  stripeId String  @unique @map("stripe_id")
+  buyerId  String  @map("buyer_id")
+  buyer    User    @relation(fields: [buyerId], references: [id])
+  amount   Float
+  plan     String?
+  credits  Int?
+
+  @@map("transactions")
+}
