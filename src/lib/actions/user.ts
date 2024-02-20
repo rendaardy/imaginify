@@ -85,9 +85,9 @@ export async function createUser(
 
 export async function getUserById(id: string): Promise<User | null> {
 	try {
-		const uer = await db.user.findUnique({
+		const user = await db.user.findUnique({
 			where: {
-				clearkId: id,
+				clerkId: id,
 			},
 		});
 
