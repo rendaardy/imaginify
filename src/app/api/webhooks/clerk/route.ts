@@ -45,7 +45,7 @@ export async function POST(req: Request): Promise<Response> {
 		case "user.created": {
 			const {
 				id,
-				email_addresses: emailAddresses,
+				email_addresses: [emailAddress],
 				image_url: imageUrl,
 				first_name: firstName,
 				last_name: lastName,
@@ -54,7 +54,7 @@ export async function POST(req: Request): Promise<Response> {
 
 			const formData = new FormData();
 			formData.append("clerkId", id.toString());
-			formData.append("email", emailAddresses.at(0)?.toString() ?? "");
+			formData.append("email", emailAddress ?? "");
 			formData.append("photo", imageUrl);
 			formData.append("firstName", firstName);
 			formData.append("lastName", lastName);
