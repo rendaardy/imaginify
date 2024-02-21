@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbo",
+    "prebuild": "prisma generate",
     "build": "next build --no-lint",
     "start": "next start",
     "lint": "next lint"
