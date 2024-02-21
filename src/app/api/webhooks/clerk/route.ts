@@ -38,10 +38,8 @@ export async function POST(req: Request): Promise<Response> {
 		return new Response("Error occured", { status: 400 });
 	}
 
-	const {
-		type: eventType,
-		data: { id },
-	} = evt;
+  const { id } = evt.data;
+  const eventType = evt.type;
 
 	switch (eventType) {
 		case "user.created": {
@@ -56,7 +54,7 @@ export async function POST(req: Request): Promise<Response> {
 
 			const formData = new FormData();
 			formData.append("clerkId", id.toString());
-			formData.append("emailAddresses", emailAddresses.at(0)?.toString() ?? "");
+			formData.append("email", emailAddresses.at(0)?.toString() ?? "");
 			formData.append("photo", imageUrl);
 			formData.append("firstName", firstName);
 			formData.append("lastName", lastName);
