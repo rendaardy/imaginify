@@ -9,7 +9,7 @@ import { db } from "#/db.ts";
 type ActionResponse<T = unknown> = {
 	success: boolean;
 	message: string;
-	data?: T;
+	data: T;
 };
 
 const createUserSchema = z.object({
@@ -41,7 +41,7 @@ const updateCreditsSchema = z.object({
 
 export async function createUser(
 	formData: FormData,
-): Promise<ActionResponse<User>> {
+): Promise<ActionResponse<User | null>> {
 	const validatedFields = createUserSchema.safeParse(
 		Object.fromEntries(formData),
 	);
@@ -50,6 +50,7 @@ export async function createUser(
 		return {
 			success: false,
 			message: validatedFields.error.errors[0].message,
+			data: null,
 		};
 	}
 
@@ -79,6 +80,7 @@ export async function createUser(
 		return {
 			success: false,
 			message: "Failed to create user",
+			data: null,
 		};
 	}
 }
@@ -104,7 +106,7 @@ export async function getUserById(id: string): Promise<User | null> {
 
 export async function updateUser(
 	formData: FormData,
-): Promise<ActionResponse<User>> {
+): Promise<ActionResponse<User | null>> {
 	const validatedFields = updateUserSchema.safeParse(
 		Object.fromEntries(formData),
 	);
@@ -113,6 +115,7 @@ export async function updateUser(
 		return {
 			success: false,
 			message: validatedFields.error.errors[0].message,
+			data: null,
 		};
 	}
 
@@ -146,13 +149,12 @@ export async function updateUser(
 		return {
 			success: false,
 			message: "Failed to update user",
+			data: null,
 		};
 	}
 }
 
-export async function deleteUser(
-	formData: FormData,
-): Promise<ActionResponse<void>> {
+export async function deleteUser(formData: FormData): Promise<ActionResponse> {
 	const validatedFields = deleteUserSchema.safeParse(
 		Object.fromEntries(formData),
 	);
@@ -161,6 +163,7 @@ export async function deleteUser(
 		return {
 			success: false,
 			message: validatedFields.error.errors[0].message,
+			data: null,
 		};
 	}
 
@@ -178,6 +181,7 @@ export async function deleteUser(
 		return {
 			success: true,
 			message: "User deleted successfully",
+			data: null,
 		};
 	} catch (error) {
 		console.error(error);
@@ -185,13 +189,14 @@ export async function deleteUser(
 		return {
 			success: false,
 			message: "Failed to delete user",
+			data: null,
 		};
 	}
 }
 
 export async function updateCredits(
 	formData: FormData,
-): Promise<ActionResponse<User>> {
+): Promise<ActionResponse<User | null>> {
 	const validatedFields = updateCreditsSchema.safeParse(
 		Object.fromEntries(formData),
 	);
@@ -200,6 +205,7 @@ export async function updateCredits(
 		return {
 			success: false,
 			message: validatedFields.error.errors[0].message,
+			data: null,
 		};
 	}
 
@@ -230,6 +236,7 @@ export async function updateCredits(
 		return {
 			success: false,
 			message: "Failed to update credits",
+			data: null,
 		};
 	}
 }
