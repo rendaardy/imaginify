@@ -38,14 +38,14 @@ export async function POST(req: Request): Promise<Response> {
 		return new Response("Error occured", { status: 400 });
 	}
 
-  const { id } = evt.data;
-  const eventType = evt.type;
+	const { id } = evt.data;
+	const eventType = evt.type;
 
 	switch (eventType) {
 		case "user.created": {
 			const {
 				id,
-				email_addresses: [emailAddress],
+				email_addresses: [{ email_address: emailAddress }],
 				image_url: imageUrl,
 				first_name: firstName,
 				last_name: lastName,
