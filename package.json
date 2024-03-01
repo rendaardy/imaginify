@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development node --import=./hooks/index.js --env-file=.env --watch --watch-path=./server.ts --enable-source-maps ./server.ts",
-    "build": "vite build && vite build --ssr",
+    "build": "remix vite:build",
     "start": "cross-env NODE_ENV=production node --import=./hooks/index.js --env-file=.env --enable-source-maps ./server.ts",
     "check": "biome check --apply .",
     "postinstall": "prisma generate"
